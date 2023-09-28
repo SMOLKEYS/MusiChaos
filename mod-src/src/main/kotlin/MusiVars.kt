@@ -36,12 +36,14 @@ object MusiVars {
     }
     
     fun load(){
+        Log.info("Caching original tracks...")
         ambientMusicCache.add(Vars.control.sound.ambientMusic)
         darkMusicCache.add(Vars.control.sound.darkMusic)
         bossMusicCache.add(Vars.control.sound.bossMusic)
     }
     
     fun handleTracks() {
+        Log.info("Loading MusiChaos...")
         val path = Core.settings.dataDirectory.child("musichaos")
         val sounds = Vars.control.sound
         
