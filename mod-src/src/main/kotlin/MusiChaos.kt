@@ -1,4 +1,4 @@
-package meta
+package musi
 
 import arc.Events
 import arc.util.Timer

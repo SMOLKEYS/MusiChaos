@@ -22,7 +22,7 @@ object MusiVars {
     val customTrackCache = ObjectMap<Fi, Music?>()
     
     private fun tryMusicInit(file: Fi): Music?{
-        val mus: Music? = null
+        var mus: Music? = null
         
         try{
            mus = if(customTrackCache.containsKey(file)) customTrackCache[file] else Music(file)

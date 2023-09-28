@@ -1,4 +1,4 @@
-package meta
+package musi
 
 import com.github.mnemotechnician.mkui.extensions.dsl.textButton
 import mindustry.Vars
