@@ -1,7 +1,7 @@
 package musi
 
 import arc.Events
-import arc.util.Timer
+import arc.util.Time
 import mindustry.Vars
 import mindustry.game.EventType.ClientLoadEvent
 import mindustry.mod.*
@@ -10,8 +10,10 @@ class MusiChaos : Mod() {
 
 	init {
 		Events.on(ClientLoadEvent::class.java) {
-			MusiVars.load()
-			MusiVars.handleTracks()
+			Time.run(120f){
+			    MusiVars.load()
+			    MusiVars.handleTracks()
+			}
 			
 			MusiSettings.load()
 		}
