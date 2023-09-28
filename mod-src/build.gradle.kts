@@ -2,55 +2,21 @@ import java.io.OutputStream
 import java.security.MessageDigest
 import java.util.Base64
 
-/**
- * This file allows you to configure the compilation process of your mod.
- * There's several comments that you should read & follow in order to make everything work correctly
- */
 
 plugins {
 	kotlin("jvm") version "1.8.0"
-	
-	/**
-	 * Uncomment this line and the "publications" block below if you want to publish to maven. 
-	 * Normally you don't need that unless you're creating a library.
-	*/
-	//`maven-publish`
 }
 
 /** The output jar files will contain this string in their names. */
-val jarName = "compiled-mod"
+val jarName = "MusiChaos"
+
+/** Windows sucks. */
+val windows = System.getProperty("os.name").lowercase().contains("windows")
 
 dependencies {
-	/*
-	 * You can add your mod-specific dependencies in this block.
-	 * These will not affect other modules, if you have any.
-	 * For example, if you have another module in your project and you want to include it in this one.
-	 * use `implementation(project("project-name"))`
-	 * See the top-level gradle buildscript if you want to modify the mindustry/arc deps.
-	*/
 }
 
-/*
- * Read the comment in "plugins" block.
 
-publishing {
-	publications {
-		create<MavenPublication>("maven") {
-			groupId = "com.github.YOUR_GITHUB_USERNAME" //replace these with your username/reponame
-			artifactId = "YOUR_GITHUB_REPO_NAME"
-			version = "1.0"
-
-			from(components["java"])
-		}
-	}
-}
-*/
-
-/** 
- * Android-specific stuff. 
- * Do not modify unless you're 100% sure you know what you're doing! 
- * If you break this task, mobile users won't be able to use your mod!
- */
 task("jarAndroid") {
 	fun hash(data: ByteArray): String =
 		MessageDigest.getInstance("MD5")
@@ -130,16 +96,19 @@ task("jarAndroid") {
 		println("${reusable.size} dependencies are already desugared and can be reused.")
 		if (needReDex.isNotEmpty()) println("Desugaring ${needReDex.size} dependencies.")
 
-		// for every non-reusable dependency, invoke d8 and save the new hash
+		// for every non-reusable dependency, invoke d8 (d8.bat for windows) and save the new hash
+
+		val d8 = if(windows) "d8.bat" else "d8"
+
 		var index = 1
 		needReDex.forEach { (dependency, hash) ->
 			println("Processing ${index++}/${needReDex.size} ($dependency)")
 
-			val outputDir = dexCacheRoot.resolve(hash(dependency.toByteArray())).also { it.mkdir() }
+			val outputDir = dexCacheRoot.resolve(hash(dependency.toByteArray()).replace("==", "")).also { it.mkdir() }
 			exec {
-				errorOutput = OutputStream.nullOutputStream()
+				errorOutput = System.err
 				commandLine(
-					"d8",
+					d8,
 					"--intermediate",
 					"--classpath", "${platformRoot.absolutePath}/android.jar",
 					"--min-api", "14", 
@@ -172,7 +141,7 @@ task("jarAndroid") {
 		exec {
 			val output = dexCacheRoot.resolve("project").also { it.mkdirs() }
 			commandLine(
-				"d8", 
+				d8,
 				*dependenciesStr,
 				"--classpath", "${platformRoot.absolutePath}/android.jar",
 				"--min-api", "14",
@@ -190,7 +159,7 @@ task("jarAndroid") {
 				.toTypedArray()
 
 			commandLine(
-				"d8",
+				d8,
 				*depDexes,
 				dexCacheRoot.resolve("project/classes.dex").absolutePath,
 				"--output", "$buildDir/libs/$jarName-android.jar"

@@ -21,24 +21,14 @@ allprojects {
 		// Do not remove anything other than mavenLocal unless you knoa what you're doing
 		mavenCentral()
 		mavenLocal()
+		maven("https://raw.githubusercontent.com/Zelaux/MindustryRepo/master/repository")
 		maven("https://jitpack.io")
 	}
 
 	dependencies {
-		// be cautious: dependencies applied here are applied to every submodule
-		// never insert local project dependencies (e.g. implementation(project(":another-module"))).
-
-		// in addiction, never declare mindustry, arc and other mods (not libraries) as implementation deps!
-		// this will greatly increase the size of your mod and will most likely break something at runtime!
-		
-		// arc dependency
-		compileOnly("com.github.Anuken.Arc", "arc-core", "v141")
-		// mindustry dependency.
-		// jitpack refuses to compile mindustry due to its repository size, thus we're using a mirror
-		compileOnly("com.github.Anuken", "MindustryJitpack", "v141")
-		//example of a library dependency. if you don't need it, remove this line.
-		//(note: this is not a mod, it's a library for mindustry mods, thus it should be added as an implementation dependency.
-		implementation("com.github.mnemotechnician", "mkui", "v1.2.1")
+		compileOnly("com.github.Anuken.Arc", "arc-core", "v146")
+		compileOnly("com.github.Anuken", "Mindustry", "v146")
+		implementation("com.github.mnemotechnician", "mkui", "v1.2.2")
 	}
 
 	tasks.withType<JavaCompile> {
