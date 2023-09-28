@@ -52,6 +52,9 @@ object MusiVars {
         sounds.bossMusic.clear().add(bossMusicCache)
         
         path.walk{
+            
+            Log.info("Loading music file: $it")
+            
             when{
                 it.name().startsWith("ambientmus-") -> {
                     
