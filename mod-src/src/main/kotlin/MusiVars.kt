@@ -9,7 +9,7 @@ import mindustry.Vars
 import com.github.mnemotechnician.mkui.delegates.setting
 
 @Suppress("MemberVisibilityCanBePrivate", "SpellCheckingInspection")
-object MetaVars {
+object MusiVars {
     val syn = "musichaos-"
     
     var includeUnspecifiedTracks by setting(false, syn)
@@ -22,7 +22,7 @@ object MetaVars {
     val customTrackCache = ObjectMap<Fi, Music?>()
     
     private fun tryMusicInit(file: Fi): Music?{
-        val mus: Music?
+        val mus: Music? = null
         
         try{
            mus = if(customTrackCache.containsKey(file)) customTrackCache[file] else Music(file)

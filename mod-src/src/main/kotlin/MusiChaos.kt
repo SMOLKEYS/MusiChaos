@@ -12,6 +12,8 @@ class MusiChaos : Mod() {
 		Events.on(ClientLoadEvent::class.java) {
 			MusiVars.load()
 			MusiVars.handleTracks()
+			
+			MusiSettings.load()
 		}
 	}
 }
