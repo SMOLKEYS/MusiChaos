@@ -8,7 +8,7 @@ MusiChaos creates a directory named `musichaos` within the data directory. This 
 
 You can specify where the track should be.
 
-`ambientmus-` indicates that the track should be part of the ambient music group.
+`ambientmus-` indicates that the track should be in the ambient music group.
 
 `darkmus-` indicates that the track should be in the dark music group.
 
