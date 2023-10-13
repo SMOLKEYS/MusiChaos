@@ -3,6 +3,6 @@ description: A mindustry mod that allows you to add your own ambient, dark and b
 displayName: MusiChaos
 author: SMOLKEYS
 minGameVersion: 146
-version: 1
+version: 1.1
 main: musi.MusiChaos
 hidden: true

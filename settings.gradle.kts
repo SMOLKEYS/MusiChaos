@@ -1,2 +1,2 @@
-rootProject.name = "musichaos"
+rootProject.name = "MusiChaos"
 include("mod-src")
