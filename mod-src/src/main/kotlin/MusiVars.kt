@@ -62,7 +62,9 @@ object MusiVars {
     
     private fun loadMusicFile(file: Fi): Music?{
         var mus: Music? = null
-        
+
+        Log.info("Loading music file: ${file.name()}")
+
         try{
            mus = if(customTrackCache.containsKey(file)) customTrackCache[file] else Music(file)
         }catch(err: Exception){
@@ -80,16 +82,24 @@ object MusiVars {
         try{
             pack = ZipFi(file)
         }catch(err: ArcRuntimeException){
-            Log.err("Failed to load music pack: $file", err)
+            Log.err("Failed to load music pack: ${file.name()}", err)
         }
 
+        if(pack != null) Log.info("Loading music pack: ${file.name()}")
+
         pack?.walk{
-           processFile(it)
+            if(it.extension().equals("zip")){
+                Log.warn("Detected a zip file in zip file ${file.name()}. These cannot be read because of technical limitations. Skipping.")
+                return@walk
+            }
+            processFile(it)
         }
     }
 
     private fun loadMusicFolder(file: Fi){
         if(!file.isDirectory) return
+
+        Log.info("Loading music folder: ${file.name()}")
 
         file.walk{
             processFile(it)
@@ -101,7 +111,7 @@ object MusiVars {
             file.extension().equals("zip") -> loadMusicPack(file)
             file.extension().equals("mp3") -> addTrack(file)
             file.isDirectory -> loadMusicFolder(file)
-            else -> Log.warn("Unknown file: $file. Skipping.")
+            else -> Log.warn("Unknown file: ${file.name()}. Skipping.")
         }
     }
     
