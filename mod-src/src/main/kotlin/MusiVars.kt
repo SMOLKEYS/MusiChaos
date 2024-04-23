@@ -110,6 +110,7 @@ object MusiVars {
         when{
             file.extension().equals("zip") -> loadMusicPack(file)
             file.extension().equals("mp3") -> addTrack(file)
+            file.extension().equals("ogg") -> addTrack(file)
             file.isDirectory -> loadMusicFolder(file)
             else -> Log.warn("Unknown file: ${file.name()}. Skipping.")
         }
